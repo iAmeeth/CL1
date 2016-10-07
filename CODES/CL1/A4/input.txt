@@ -1,0 +1,6 @@
+main()
+{
+int a,b,c; 
+printf("Hello World");
+c=a+b;
+}

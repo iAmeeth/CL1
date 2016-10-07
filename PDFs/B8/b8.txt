@@ -1,0 +1,347 @@
+import xml.etree.ElementTree as ET
+
+
+
+tree= ET.parse('parsing_table.xml')
+
+root=tree.getroot()
+
+term=[]
+
+non_term=[]
+
+lsprod=[]
+
+rsprod=[]
+
+n=0    #no of states
+
+
+
+for child in root:
+
+   if(child.tag=="states"):
+
+      n=int(child.text)
+
+   elif(child.tag=="term"):
+
+      term.append(child.text)
+
+   elif(child.tag=="nterm"):
+
+      non_term.append(child.text)
+
+   elif(child.tag=="productions"):
+
+        for ch in child:
+
+          lsprod.append(ch[0].text)
+
+          rsprod.append(ch[1].text)
+
+   elif(child.tag=="actiontable"):
+
+      action=[[] for x in range(n)]
+
+      i=0
+
+      for ch in child:
+
+         for c in ch:
+
+           action[i].append(c.text)
+
+         i=i+1
+
+ 
+
+   elif(child.tag=="gototable"):
+
+      goto=[[] for x in range(n)] 
+
+      i=0
+
+      for ch in child:
+
+         for c in ch:
+
+            goto[i].append(c.text)
+
+         i=i+1
+
+
+
+
+
+nterm=len(term)
+
+nnterm=len(non_term)
+
+nprod=len(lsprod)
+
+
+
+print("Terminals:    "),;print(term)
+
+print("Non Terminals:    "),;print(non_term)
+
+
+
+print("Grammar Productions are as follows:   ")
+
+for i in range(nprod):
+
+   print(lsprod[i]+" -> "+rsprod[i])
+
+
+
+
+
+print("\nAction Table:  ")
+
+for i in range(n):
+
+  print("")
+
+  for j in range(nterm):
+
+     print(action[i][j]+"   "),
+
+print("")
+
+print("Goto Table:    ")
+
+for i in range(n):
+
+  print(" ")
+
+  for j in range(nnterm):
+
+    print(str(goto[i][j])+"   "),
+
+
+
+while True:
+
+  #print("\nEnter input String:  "),
+
+  istr=raw_input("\nEnter input String:  ")
+
+  iptr=0
+  #istr = 'abab'
+
+  stack=['$',0]
+
+  while True:
+
+    print("Stack :"),
+
+    print(stack)
+
+    stop=stack[len(stack)-1]
+
+    isym=istr[iptr]
+
+    isindex=term.index(isym)
+
+    ac=action[stop][isindex]
+
+    print("Action for stop="+str(stop)+" and input symbol index   "+str(isindex)+" is "+action[stop][isindex])
+
+    if(ac=="Error"):
+
+       print("Syntax Error!!!")
+
+       break
+
+    elif(ac=="Accept"):
+
+       print("Correct Syntax!!")
+
+       break
+
+    elif("s" in ac):
+
+       stack.append(isym)
+
+       ns=ac.replace("s","")
+
+       stack.append(int(ns))
+
+       iptr=iptr+1
+
+    elif("r" in ac):
+
+       rrule=int(ac.replace("r",""))
+
+       print("Reduce using rule  "+lsprod[rrule-1]+"  ->  "+rsprod[rrule-1])
+
+       for i in range(2*len(rsprod[rrule-1])):
+
+           stack.pop()
+
+       print(stack)
+
+       stack.append(lsprod[rrule-1])
+
+       pstate=stack[len(stack)-2]
+
+       ntindex=non_term.index(lsprod[rrule-1])
+
+       nst=goto[pstate][ntindex]
+
+       stack.append(int(nst))
+
+       print(stack)
+
+******************** PARSE FILE *********************
+
+<parsetable>
+
+    <states>8</states>
+
+    <term>a</term>
+
+    <term>b</term>
+
+    <term>$</term>
+
+    <nterm>S</nterm>
+
+    <nterm>A</nterm>
+
+    <productions>
+
+         <prod><l>S</l><r>AS</r></prod>
+
+         <prod><l>S</l><r>b</r></prod>
+
+         <prod><l>A</l><r>SA</r></prod>
+
+         <prod><l>A</l><r>a</r></prod>
+
+    </productions>
+
+    <actiontable>
+
+        <tr><td>s5</td><td>s3</td><td>Error</td></tr>
+
+        <tr><td>Error</td><td>Error</td><td>Accept</td></tr>
+
+        <tr><td>s5</td><td>s3</td><td>Error</td></tr>
+
+        <tr><td>r2</td><td>r2</td><td>r2</td></tr>
+
+        <tr><td>s5</td><td>Error</td><td>Error</td></tr>
+
+        <tr><td>r4</td><td>r4</td><td>Error</td></tr>
+
+        <tr><td>r1</td><td>r1</td><td>r1</td></tr>
+
+        <tr><td>r3</td><td>r3</td><td>Error</td></tr>
+
+    </actiontable>
+
+    <gototable>
+
+        <tr><td>1</td><td>2</td></tr>
+
+        <tr><td>0</td><td>0</td></tr>
+
+        <tr><td>6</td><td>2</td></tr>
+
+        <tr><td>0</td><td>0</td></tr>
+
+        <tr><td>4</td><td>7</td></tr>
+
+        <tr><td>0</td><td>0</td></tr>
+
+        <tr><td>0</td><td>0</td></tr>
+
+        <tr><td>0</td><td>0</td></tr>
+
+    </gototable>
+
+</parsetable>
+
+***************************** OUTPUT **************************
+
+abhidnya@abhidnya-HP-Pavilion-TS-Sleekbook-14:~/B8$ python parse1.py
+Terminals:     ['a', 'b', '$']
+Non Terminals:     ['S', 'A']
+Grammar Productions are as follows:   
+S -> AS
+S -> b
+A -> SA
+A -> a
+
+Action Table:  
+
+s5    s3    Error    
+Error    Error    Accept    
+s5    s3    Error    
+r2    r2    r2    
+s5    Error    Error    
+r4    r4    Error    
+r1    r1    r1    
+r3    r3    Error    
+Goto Table:    
+ 
+1    2     
+0    0     
+6    2     
+0    0     
+4    7     
+0    0     
+0    0     
+0    0    
+Enter input String:  ab$
+Stack : ['$', 0]
+Action for stop=0 and input symbol index   0 is s5
+Stack : ['$', 0, 'a', 5]
+Action for stop=5 and input symbol index   1 is r4
+Reduce using rule  A  ->  a
+['$', 0]
+['$', 0, 'A', 2]
+Stack : ['$', 0, 'A', 2]
+Action for stop=2 and input symbol index   1 is s3
+Stack : ['$', 0, 'A', 2, 'b', 3]
+Action for stop=3 and input symbol index   2 is r2
+Reduce using rule  S  ->  b
+['$', 0, 'A', 2]
+['$', 0, 'A', 2, 'S', 6]
+Stack : ['$', 0, 'A', 2, 'S', 6]
+Action for stop=6 and input symbol index   2 is r1
+Reduce using rule  S  ->  AS
+['$', 0]
+['$', 0, 'S', 1]
+Stack : ['$', 0, 'S', 1]
+Action for stop=1 and input symbol index   2 is Accept
+Correct Syntax!!
+
+Enter input String:  abb$
+Stack : ['$', 0]
+Action for stop=0 and input symbol index   0 is s5
+Stack : ['$', 0, 'a', 5]
+Action for stop=5 and input symbol index   1 is r4
+Reduce using rule  A  ->  a
+['$', 0]
+['$', 0, 'A', 2]
+Stack : ['$', 0, 'A', 2]
+Action for stop=2 and input symbol index   1 is s3
+Stack : ['$', 0, 'A', 2, 'b', 3]
+Action for stop=3 and input symbol index   1 is r2
+Reduce using rule  S  ->  b
+['$', 0, 'A', 2]
+['$', 0, 'A', 2, 'S', 6]
+Stack : ['$', 0, 'A', 2, 'S', 6]
+Action for stop=6 and input symbol index   1 is r1
+Reduce using rule  S  ->  AS
+['$', 0]
+['$', 0, 'S', 1]
+Stack : ['$', 0, 'S', 1]
+Action for stop=1 and input symbol index   1 is Error
+Syntax Error!!!
+
+

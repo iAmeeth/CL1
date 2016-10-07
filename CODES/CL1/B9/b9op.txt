@@ -1,0 +1,15 @@
+abhidnya@abhidnya-HP-Pavilion-TS-Sleekbook-14:~/b9$ python f.py 
+test file : t.txt
+
+Cosine Similarity Values
+[['doc1.txt', 'science', 0.008], ['doc2.txt', 'science', 0.022], ['doc3.txt', 'science', 0.006], ['doc4.txt', 'entertainment', 0.194], ['doc5.txt', 'entertainment', 0.005], ['doc6.txt', 'entertainment', 0.019]]
+Counter({'entertainment': 2, 'science': 1})
+Class of test file is :  entertainment
+abhidnya@abhidnya-HP-Pavilion-TS-Sleekbook-14:~/b9$ python f.py 
+test file : doc1.txt
+
+Cosine Similarity Values
+[['doc1.txt', 'science', 1.0], ['doc2.txt', 'science', 0.163], ['doc3.txt', 'science', 0.081], ['doc4.txt', 'entertainment', 0.022], ['doc5.txt', 'entertainment', 0.009], ['doc6.txt', 'entertainment', 0.029]]
+Counter({'science': 3})
+Class of test file is :  science
+

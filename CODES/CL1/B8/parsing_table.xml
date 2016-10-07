@@ -1,0 +1,34 @@
+<parsetable>
+    <states>8</states>
+    <term>a</term>
+    <term>b</term>
+    <term>$</term>
+    <nterm>S</nterm>
+    <nterm>A</nterm>
+    <productions>
+         <prod><l>S</l><r>AS</r></prod>
+         <prod><l>S</l><r>b</r></prod>
+         <prod><l>A</l><r>SA</r></prod>
+         <prod><l>A</l><r>a</r></prod>
+    </productions>
+    <actiontable>
+        <tr><td>s5</td><td>s3</td><td>Error</td></tr>
+        <tr><td>Error</td><td>Error</td><td>Accept</td></tr>
+        <tr><td>s5</td><td>s3</td><td>Error</td></tr>
+        <tr><td>r2</td><td>r2</td><td>r2</td></tr>
+        <tr><td>s5</td><td>Error</td><td>Error</td></tr>
+        <tr><td>r4</td><td>r4</td><td>Error</td></tr>
+        <tr><td>r1</td><td>r1</td><td>r1</td></tr>
+        <tr><td>r3</td><td>r3</td><td>Error</td></tr>
+    </actiontable>
+    <gototable>
+        <tr><td>1</td><td>2</td></tr>
+        <tr><td>0</td><td>0</td></tr>
+        <tr><td>6</td><td>2</td></tr>
+        <tr><td>0</td><td>0</td></tr>
+        <tr><td>4</td><td>7</td></tr>
+        <tr><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>0</td></tr>
+    </gototable>
+</parsetable>

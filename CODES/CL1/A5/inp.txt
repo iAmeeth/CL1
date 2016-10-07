@@ -1,0 +1,20 @@
+int a=100,b,c=55,d=98;
+float e=112,f=976;
+int p=98;
+char k=125;
+double g,h;
+a=100;
+f=a;
+g=b;
+a=b+e;
+if(e>f)
+{
+p=k/a;}
+else{
+g=12;
+}
+h=90;
+a=80;
+while(a>b)
+{ g=12;}
+h=100;

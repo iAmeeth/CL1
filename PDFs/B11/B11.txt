@@ -1,0 +1,156 @@
+import java.io.*;
+
+class DecisionTreeApp {
+
+    /* ------------------------------- */
+    /*                                 */
+    /*              FIELDS             */
+    /*                                 */
+    /* ------------------------------- */
+
+    static BufferedReader keyboardInput = new
+                           BufferedReader(new InputStreamReader(System.in));
+    static DecisionTree newTree;
+
+    /* --------------------------------- */
+    /*                                   */
+    /*               METHODS             */
+    /*                                   */
+    /* --------------------------------- */
+
+    /* MAIN */
+
+    public static void main(String[] args) throws IOException {
+
+        // Create instance of class DecisionTree
+
+        newTree = new DecisionTree();
+
+        // Generate tree
+
+        generateTree();
+
+        // Output tree
+
+        System.out.println("\nOUTPUT DECISION TREE");
+        System.out.println("====================");
+        newTree.outputBinTree();
+
+        // Query tree
+
+        queryTree();
+        }
+
+    /* GENERATE TREE */
+
+    static void generateTree() {
+        System.out.println("\nGENERATE DECISION TREE");
+        System.out.println("======================");
+        newTree.createRoot(1,"Semisterwise Computer Branch Subject");
+        newTree.addYesNode(1,2,"Semister-1?");
+        newTree.addNoNode(1,3,"Semister-2?");
+        newTree.addYesNode(2,4,"Elective");
+     newTree.addYesNode(4,8," Subject is DMT");
+     newTree.addNoNode(4,9,"Subject is PC");
+    newTree.addNoNode(2,5,"Compulsory Subject");
+    // newTree.addYesNode(5,10,"Subject is SSDA");
+
+     newTree.addYesNode(5,10,"Subject is PMCD");
+    newTree.addNoNode(5,11,"Subject is DAA");
+
+        newTree.addYesNode(3,6,"Elective");
+    newTree.addYesNode(6,12,"Elective-1");
+    newTree.addNoNode(6,13,"Elective-2");
+
+        newTree.addNoNode(3,7,"Compulsory Subject");
+    newTree.addYesNode(7,14,"Subject is SDMT");
+    newTree.addNoNode(7,15,"Subject is HPC");
+        }
+
+    /* QUERY TREE */
+    
+    static void queryTree() throws IOException {
+        System.out.println("\nQUERY DECISION TREE");
+        System.out.println("===================");
+        newTree.queryBinTree();
+
+        // Option to exit
+
+        optionToExit();
+        }
+
+    /* OPTION TO EXIT PROGRAM */
+
+    static void optionToExit() throws IOException {
+        System.out.println("Exit? (enter \"Yes\" or \"No\")");
+        String answer = keyboardInput.readLine();
+        if (answer.equals("Yes")) return;
+        else {
+            if (answer.equals("No")) queryTree();
+            else {
+                System.out.println("ERROR: Must answer \"Yes\" or \"No\"");
+                optionToExit();
+                }
+            }
+        }
+    }
+
+
+
+op.txt
+----------------------
+
+
+
+http://www.markhneedham.com/blog/2015/02/24/pythonnltk-naive-vs-naive-bayes-vs-decision-tree/
+http://webdocs.cs.ualberta.ca/~aixplore/learning/DecisionTrees/InterArticle/4-DecisionTree.html
+gescoe@computerdept:~/Downloads$ javac DecisionTreeApp.java 
+gescoe@computerdept:~/Downloads$ java DecisionTreeApp 
+
+GENERATE DECISION TREE
+======================
+Created root node 1
+Added node 2 onto "yes" branch of node 1
+Added node 3 onto "no" branch of node 1
+Added node 4 onto "yes" branch of node 2
+Added node 8 onto "yes" branch of node 4
+Added node 9 onto "no" branch of node 4
+Added node 5 onto "no" branch of node 2
+Added node 10 onto "yes" branch of node 5
+Added node 11 onto "no" branch of node 5
+Added node 6 onto "yes" branch of node 3
+Added node 12 onto "yes" branch of node 6
+Added node 13 onto "no" branch of node 6
+Added node 7 onto "no" branch of node 3
+Added node 14 onto "yes" branch of node 7
+Added node 15 onto "no" branch of node 7
+
+OUTPUT DECISION TREE
+====================
+[1] nodeID = 1, question/answer = Branch Computer
+[1.1] nodeID = 2, question/answer = Semister-1?
+[1.1.1] nodeID = 4, question/answer = Elective
+[1.1.1.1] nodeID = 8, question/answer =  Subject is DMT
+[1.1.1.2] nodeID = 9, question/answer = Subject is PC
+[1.1.2] nodeID = 5, question/answer = Compulsory Subject
+[1.1.2.1] nodeID = 10, question/answer = Subject is PMCD
+[1.1.2.2] nodeID = 11, question/answer = Subject is DAA
+[1.2] nodeID = 3, question/answer = Semister-2?
+[1.2.1] nodeID = 6, question/answer = Elective
+[1.2.1.1] nodeID = 12, question/answer = Elective-1
+[1.2.1.2] nodeID = 13, question/answer = Elective-2
+[1.2.2] nodeID = 7, question/answer = Compulsory Subject
+[1.2.2.1] nodeID = 14, question/answer = Subject is SDMT
+[1.2.2.2] nodeID = 15, question/answer = Subject is HPC
+
+QUERY DECISION TREE
+===================
+Branch Computer (enter "Yes" or "No")
+No 
+Semister-2? (enter "Yes" or "No")
+Yes
+Elective (enter "Yes" or "No")
+No
+Elective-2
+Exit? (enter "Yes" or "No")
+s
